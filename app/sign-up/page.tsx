@@ -6,9 +6,9 @@ import SignUpForm from "./components/sign-up-form";
 
 const SignUpPage = () => {
   return (
-    <div className="grid h-screen md:grid-cols-2">
+    <div className="grid h-screen lg:grid-cols-2">
       {/* Left side content */}
-      <div className="relative flex h-full w-full flex-col justify-center px-5 md:px-29">
+      <div className="relative flex h-full w-full flex-col justify-center px-5 md:px-30 lg:px-29">
         <h1 className="flex items-center gap-1 text-lg">
           <BadgeJapaneseYen />
           yamada finance.ai
@@ -33,7 +33,7 @@ const SignUpPage = () => {
       </div>
 
       {/* Right side content */}
-      <div className="relative hidden h-full w-full md:block">
+      <div className="relative hidden h-full w-full lg:block">
         <Image
           src="/login.jpeg"
           alt="ilustração de gráficos"
