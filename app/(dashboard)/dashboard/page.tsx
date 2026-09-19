@@ -1,8 +1,8 @@
-const DashBoardPage = () => {
+const DashBoardPage = async () => {
   return (
-    <>
+    <div>
       <h1>Dashboard</h1>
-    </>
+    </div>
   );
 };
 

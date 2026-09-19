@@ -1,33 +1,24 @@
 import "../globals.css";
 
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import Header from "@/components/header";
+import { auth } from "@/lib/auth";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export default async function DashboardLayout({ children }: LayoutProps<"/">) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-export const metadata: Metadata = {
-  title: "Yamada Finance AI",
-  description:
-    "Optimize your budget and discover investment insights with Yamada Finance AI. Our Artificial Intelligence analyzes your financial data to forecast expenses and accelerate your financial independence.",
-  keywords:
-    "artificial intelligence finance, financial machine learning, expense tracking, automated financial planner, AI for investments, budget management, Yamada Finance AI.",
-};
+  if (!session) {
+    redirect("/sign-in");
+  }
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
-    </html>
+    <div className="min-h-screen">
+      <Header userName={session?.user.name} />
+      <main className="min-h-screen px-6 py-5.75">{children}</main>
+    </div>
   );
 }
