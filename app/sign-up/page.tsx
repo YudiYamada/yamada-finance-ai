@@ -1,10 +1,21 @@
 import { BadgeJapaneseYen } from "lucide-react";
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import { auth } from "@/lib/auth";
 
 import SignUpForm from "./components/sign-up-form";
 
-const SignUpPage = () => {
+const SignUpPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session) {
+    redirect("/dashboard");
+  }
   return (
     <div className="grid h-screen lg:grid-cols-2">
       {/* Left side content */}
