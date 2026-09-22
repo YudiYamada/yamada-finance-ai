@@ -1,9 +1,18 @@
 "use client";
 
-import { BadgeJapaneseYen } from "lucide-react";
+import { BadgeJapaneseYen, LogOutIcon } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { authClient } from "@/lib/auth-client";
 import { getInitials } from "@/utils/get-initials";
 
 import { Avatar, AvatarFallback } from "./ui/avatar";
@@ -14,8 +23,19 @@ type HeaderProps = {
 
 const Header = ({ userName }: HeaderProps) => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const isActiveLink = (path: string) => pathname === path;
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/sign-in");
+        },
+      },
+    });
+  };
 
   return (
     <header className="border-accent-foreground flex items-center justify-between border-b px-8 py-4">
@@ -57,11 +77,28 @@ const Header = ({ userName }: HeaderProps) => {
           </Link>
         </div>
       </div>
-      <div className="border-accent-foreground flex items-center gap-2 rounded-2xl border px-4 py-2.5 text-[14px] font-semibold">
-        <Avatar>
-          <AvatarFallback>{getInitials(userName)}</AvatarFallback>
-        </Avatar>
-        <span>{userName}</span>
+      <div>
+        <NavigationMenu className="border-accent-foreground flex items-center gap-2 rounded-2xl border px-4 py-2.5 text-[14px] font-semibold">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="space-x-2 bg-transparent! hover:cursor-pointer hover:bg-transparent! focus:bg-transparent! data-[state=open]:bg-transparent!">
+                <Avatar>
+                  <AvatarFallback>{getInitials(userName)}</AvatarFallback>
+                </Avatar>
+                <span>{userName}</span>
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <NavigationMenuLink
+                  className="hover:cursor-pointer"
+                  onClick={handleSignOut}
+                >
+                  <LogOutIcon />
+                  Sign Out
+                </NavigationMenuLink>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
     </header>
   );
