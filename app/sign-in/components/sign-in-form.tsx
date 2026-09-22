@@ -93,14 +93,12 @@ export function SignInForm() {
       </div>
 
       <div className="flex justify-end">
-        <Button
-          type="button"
-          variant="ghost"
+        <Link
+          href="/forgot-password"
           className="text-muted-foreground px-0 text-sm font-light italic hover:bg-transparent"
-          disabled={isLoading}
         >
           Forgot your password?
-        </Button>
+        </Link>
       </div>
 
       <Button type="submit" className="w-full" disabled={isLoading}>
