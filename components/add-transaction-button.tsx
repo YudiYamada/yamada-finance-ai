@@ -129,10 +129,10 @@ const AddTransactionButton = () => {
         </form>
 
         <DialogFooter className="flex items-center bg-transparent px-2 sm:justify-evenly">
-          <DialogClose className="hover:text-muted-foreground w-40 hover:cursor-pointer">
+          <DialogClose className="hover:text-muted-foreground border-accent w-40 rounded-xl border-2 p-1 hover:cursor-pointer">
             Cancel
           </DialogClose>
-          <Button className="w-40">Add</Button>
+          <Button className="w-40 rounded-xl p-1">Add</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
