@@ -12,7 +12,7 @@ import {
 } from "@/generated/prisma/enums";
 import { formatEnumText } from "@/utils/format-enum-text";
 
-import { type DataTableFeatures } from "../../../../components/data-table-features";
+import { type DataTableFeatures } from "../../../../lib/data-table-features";
 
 export type TransactionTableType = {
   id: string;

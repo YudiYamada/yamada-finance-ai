@@ -11,7 +11,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { type DataTableFeatures, features } from "../data-table-features";
+import {
+  type DataTableFeatures,
+  features,
+} from "../../lib/data-table-features";
 
 interface DataTableProps<TData extends RowData> {
   columns: ColumnDef<DataTableFeatures, TData>[];
