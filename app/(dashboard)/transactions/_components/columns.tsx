@@ -84,7 +84,7 @@ export const columns: ColumnDef<DataTableFeatures, TransactionTableType>[] = [
     cell: ({ getValue }) => {
       const method = getValue() as string;
       return (
-        <span className="text-muted-foreground">{formatEnumText(method)}</span>
+        <span className="text-muted">{formatEnumText(method)}</span>
       );
     },
   }),

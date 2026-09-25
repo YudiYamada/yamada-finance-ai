@@ -12,17 +12,20 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePickerDemo() {
-  const [date, setDate] = React.useState<Date>();
+interface DatePickerProps {
+  date?: Date;
+  setDate: (date: Date | undefined) => void;
+}
 
+export function DatePickerDemo({ date, setDate }: DatePickerProps) {
   return (
     <Popover>
       <PopoverTrigger
         render={
           <Button
-            variant={"outline"}
+            type="button"
             data-empty={!date}
-            className="data-[empty=true]:text-muted-foreground text-foreground border-input hover:text-foreground flex h-9 w-full items-center justify-start gap-2 rounded-md bg-transparent px-3 py-1 text-base font-normal shadow-xs transition-colors hover:bg-transparent md:text-sm"
+            className="data-[empty=true]:text-muted-foreground border-input text-foreground hover:text-foreground flex h-9 w-full items-center justify-start gap-2 rounded-md border bg-transparent px-3 py-1 text-base font-normal shadow-xs transition-colors hover:bg-transparent md:text-sm"
           >
             <CalendarIcon className="h-4 w-4 opacity-50" />
             {date ? format(date, "PPP") : <span>Pick a date</span>}
@@ -38,7 +41,6 @@ export function DatePickerDemo() {
           selected={date}
           onSelect={setDate}
           defaultMonth={date}
-          className="text-foreground bg-transparent"
         />
       </PopoverContent>
     </Popover>
