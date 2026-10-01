@@ -2,9 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowDownUpIcon } from "lucide-react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 
+import { addTransactions } from "@/actions/add-transactions";
 import {
   Dialog,
   DialogClose,
@@ -65,11 +67,11 @@ const payment = [
 ];
 
 const formSchema = z.object({
-  title: z
+  name: z
     .string()
     .trim()
-    .min(1, "Title must be at least 1 characters.")
-    .max(32, "Title must be at most 32 characters."),
+    .min(1, "Name must be at least 1 characters.")
+    .max(32, "Name must be at most 32 characters."),
   amount: z.number().min(0.01, "Amount is required"),
   type: z.enum(TransactionType, "Select a type."),
   category: z.enum(TransactionCategory, "Select a category."),
@@ -80,10 +82,12 @@ const formSchema = z.object({
 });
 
 const AddTransactionButton = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const form = useForm<z.input<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      name: "",
       amount: 0,
       type: undefined,
       category: undefined,
@@ -92,14 +96,21 @@ const AddTransactionButton = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log("Valores válidos:", data);
-    alert("Formulário Enviado com sucesso!");
-    form.reset();
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+    try {
+      await addTransactions(data);
+      setIsOpen(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+      form.reset();
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="bg-primary flex items-center justify-center gap-2 rounded-2xl px-5 py-2 text-[14px] font-bold hover:cursor-pointer hover:opacity-95">
         Add transactions
         <ArrowDownUpIcon />
@@ -126,11 +137,11 @@ const AddTransactionButton = () => {
               <Input
                 placeholder="Title"
                 className="text-foreground"
-                {...form.register("title")}
+                {...form.register("name")}
               />
-              {form.formState.errors.title && (
+              {form.formState.errors.name && (
                 <span className="text-xs text-red-400">
-                  {form.formState.errors.title.message}
+                  {form.formState.errors.name.message}
                 </span>
               )}
             </div>
@@ -314,8 +325,9 @@ const AddTransactionButton = () => {
             form="form-add-transaction"
             className="w-40 rounded-xl p-1"
             type="submit"
+            disabled={isLoading}
           >
-            Add
+            {isLoading ? "Adding..." : "Add Transaction"}
           </Button>
         </DialogFooter>
       </DialogContent>
