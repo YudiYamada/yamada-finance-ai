@@ -1,7 +1,7 @@
 "use client";
 
 import { type ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { PencilIcon, TrashIcon } from "lucide-react";
+import { TrashIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import {
 } from "@/generated/prisma/enums";
 import { formatEnumText } from "@/utils/format-enum-text";
 
+import EditTransactionButton from "../../../../components/edit-transaction-button";
 import { type DataTableFeatures } from "../../../../lib/data-table-features";
 
 export type TransactionTableType = {
@@ -83,9 +84,7 @@ export const columns: ColumnDef<DataTableFeatures, TransactionTableType>[] = [
     header: "Method",
     cell: ({ getValue }) => {
       const method = getValue() as string;
-      return (
-        <span className="text-muted">{formatEnumText(method)}</span>
-      );
+      return <span className="text-muted">{formatEnumText(method)}</span>;
     },
   }),
   columnHelper.accessor("date", {
@@ -129,15 +128,7 @@ export const columns: ColumnDef<DataTableFeatures, TransactionTableType>[] = [
       return (
         <div className="flex items-center gap-2">
           {/* View Button (Sheet trigger) */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => {
-              alert(`View transaction: ${transaction.id}`);
-            }}
-          >
-            <PencilIcon className="h-4 w-4" />
-          </Button>
+          <EditTransactionButton transaction={transaction} />
 
           {/* Delete Button */}
           <Button

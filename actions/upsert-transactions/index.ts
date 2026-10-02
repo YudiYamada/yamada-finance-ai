@@ -11,9 +11,10 @@ import {
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-import { addTransactionsSchema } from "./schema";
+import { upsertTransactionsSchema } from "./schema";
 
-interface AddTransactionsParams {
+interface upsertTransactionsParams {
+  id?: string;
   name: string;
   amount: number;
   type: TransactionType;
@@ -22,17 +23,34 @@ interface AddTransactionsParams {
   date: Date;
 }
 
-export async function addTransactions(params: AddTransactionsParams) {
-  addTransactionsSchema.parse(params);
+export async function upsertTransactions(params: upsertTransactionsParams) {
+  upsertTransactionsSchema.parse(params);
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
   if (!session?.user) {
     throw new Error("Unauthorized");
   }
-  await prisma.transaction.create({
-    data: { ...params, user: { connect: { id: session.user.id } } },
-  });
+
+  const { id, ...data } = params;
+
+  if (id) {
+    await prisma.transaction.update({
+      where: { id },
+      data: {
+        ...data,
+        userId: session.user.id,
+      },
+    });
+  } else {
+    await prisma.transaction.create({
+      data: {
+        ...data,
+        userId: session.user.id,
+      },
+    });
+  }
 
   revalidatePath("/dashboard/transactions");
 }

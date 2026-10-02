@@ -6,16 +6,9 @@ import {
   TransactionType,
 } from "@/generated/prisma/enums";
 
-export const addTransactionsSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1)
-    .max(32),
-  amount: z
-    .number()
-    .min(0.01)
-    .positive(),
+export const upsertTransactionsSchema = z.object({
+  name: z.string().trim().min(1).max(32),
+  amount: z.number().min(0.01).positive(),
   type: z.enum(TransactionType),
   category: z.enum(TransactionCategory),
   paymentMethod: z.enum(TransactionPaymentMethod),
