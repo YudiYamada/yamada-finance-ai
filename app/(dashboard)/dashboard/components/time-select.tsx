@@ -40,7 +40,7 @@ export function TimeSelect() {
     <Select
       items={months}
       onValueChange={(value) => handleMonthChange(value)}
-      defaultValue={currentMonth}
+      value={currentMonth ?? ""}
     >
       <SelectTrigger className="w-full max-w-48 hover:cursor-pointer">
         <SelectValue placeholder="Select Month" />
