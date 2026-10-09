@@ -14,55 +14,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { prisma } from "@/lib/prisma";
 
 import SummaryCard from "./summary-card";
 
 interface SummaryCardsProps {
   month?: string;
+  balance: number;
+  investmentsTotal: number;
+  depositsTotal: number;
+  expensesTotal: number;
 }
 
-const SummaryCards = async ({ month }: SummaryCardsProps) => {
-  const where = {
-    date: {
-      gte: new Date(`2026-${month}-01`),
-      lte: new Date(`2026-${month}-31`),
-    },
-  };
-
-  const depositsTotal = Number(
-    (
-      await prisma.transaction.aggregate({
-        where: { ...where, type: "DEPOSIT" },
-        _sum: {
-          amount: true,
-        },
-      })
-    )._sum?.amount,
-  );
-  const investmentsTotal = Number(
-    (
-      await prisma.transaction.aggregate({
-        where: { ...where, type: "INVESTMENT" },
-        _sum: {
-          amount: true,
-        },
-      })
-    )._sum?.amount,
-  );
-  const expessesTotal = Number(
-    (
-      await prisma.transaction.aggregate({
-        where: { ...where, type: "EXPENSE" },
-        _sum: {
-          amount: true,
-        },
-      })
-    )._sum?.amount,
-  );
-
-  const balance = depositsTotal - investmentsTotal - expessesTotal;
-
+const SummaryCards = async ({ balance, investmentsTotal, depositsTotal, expensesTotal }: SummaryCardsProps) => {
   return (
     <div className="mt-7.75">
       <div>
@@ -108,7 +71,7 @@ const SummaryCards = async ({ month }: SummaryCardsProps) => {
             <TrendingDownIcon className="rounded-md bg-red-950 p-1 text-red-400" />
           }
           title="Spent"
-          amount={expessesTotal}
+          amount={expensesTotal}
         />
       </div>
     </div>

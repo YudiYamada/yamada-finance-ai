@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 
+import { getDashboard } from "@/data-access/get-dashboard";
+
 import SummaryCards from "./components/summary-cards";
 import { TimeSelect } from "./components/time-select";
+import { TransactionsChartPieDonut } from "./components/transactions-chart-pie-donut";
 
 interface DashBoardPageProps {
   searchParams: { month: string };
@@ -18,14 +21,32 @@ const DashBoardPage = async ({ searchParams }: DashBoardPageProps) => {
     redirect(`/dashboard?month=${currentMonth}`);
   }
 
+  const dashboard = await getDashboard(month);
+
   return (
-    <div>
+    <>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <TimeSelect />
       </div>
-      <SummaryCards month={month} />
-    </div>
+
+      <div className="grid grid-cols-3">
+        <div className="col-span-2">
+          <SummaryCards month={month} {...dashboard} />
+          <div className="mt-6 grid grid-cols-3 gap-6">
+            <div className="col-span-1">
+              <TransactionsChartPieDonut {...dashboard}/>
+            </div>
+
+            <div className="col-span-2">Gastos por categoria</div>
+          </div>
+        </div>
+
+        <div className="col-span-1">
+          <h2> Olá mundo!</h2>
+        </div>
+      </div>
+    </>
   );
 };
 
