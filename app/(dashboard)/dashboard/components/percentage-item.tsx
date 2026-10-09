@@ -3,10 +3,12 @@ import { ReactNode } from "react";
 interface PercentageItemProps {
   icon: ReactNode;
   title: string;
-  value: number;
+  value?: number;
 }
 
-const PercentageItem = ({ icon, title, value }: PercentageItemProps) => {
+const PercentageItem = ({ icon, title, value = 0 }: PercentageItemProps) => {
+  const safeValue = Number.isNaN(value) ? 0 : value;
+
   return (
     <div className="flex items-center justify-between">
       {/* ICON */}
@@ -16,7 +18,7 @@ const PercentageItem = ({ icon, title, value }: PercentageItemProps) => {
       </div>
 
       <div>
-        <p className="text-foreground text-sm font-bold">{value}%</p>
+        <p className="text-foreground text-sm font-bold">{safeValue}%</p>
       </div>
     </div>
   );

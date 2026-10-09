@@ -28,6 +28,10 @@ const chartConfig = {
     label: "Spent",
     color: "#FF0000",
   },
+  empty: {
+    label: "Empty",
+    color: "#FFFFFF",
+  },
 } satisfies ChartConfig;
 
 interface TransactionsChartPieDonutProps {
@@ -43,23 +47,34 @@ export function TransactionsChartPieDonut({
   depositsTotal,
   expensesTotal,
 }: TransactionsChartPieDonutProps) {
-  const chartData = [
-    {
-      type: TransactionType.DEPOSIT,
-      amount: depositsTotal,
-      fill: "var(--color-DEPOSIT)",
-    },
-    {
-      type: TransactionType.EXPENSE,
-      amount: expensesTotal,
-      fill: "var(--color-EXPENSE)",
-    },
-    {
-      type: TransactionType.INVESTMENT,
-      amount: investmentsTotal,
-      fill: "var(--color-INVESTMENT)",
-    },
-  ];
+  const hasData =
+    depositsTotal > 0 || expensesTotal > 0 || investmentsTotal > 0;
+
+  const chartData = hasData
+    ? [
+        {
+          type: TransactionType.DEPOSIT,
+          amount: depositsTotal,
+          fill: "var(--color-DEPOSIT)",
+        },
+        {
+          type: TransactionType.EXPENSE,
+          amount: expensesTotal,
+          fill: "var(--color-EXPENSE)",
+        },
+        {
+          type: TransactionType.INVESTMENT,
+          amount: investmentsTotal,
+          fill: "var(--color-INVESTMENT)",
+        },
+      ]
+    : [
+        {
+          type: "empty",
+          amount: 1,
+          fill: "var(--color-empty)",
+        },
+      ];
 
   return (
     <Card className="bg-background flex flex-col">
@@ -69,35 +84,38 @@ export function TransactionsChartPieDonut({
           className="mx-auto aspect-square max-h-62.5"
         >
           <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+            {hasData && (
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+            )}
             <Pie
               data={chartData}
               dataKey="amount"
               nameKey="type"
               innerRadius={60}
+              strokeWidth={hasData ? 1 : 0}
             />
           </PieChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="bg-background flex-col gap-2 border-t-transparent text-sm">
-        <div className="space-y-3 w-full">
+        <div className="w-full space-y-3">
           <PercentageItem
             icon={<TrendingUpIcon size={16} className="text-green-500" />}
             title="Receita"
-            value={typesPercentage[TransactionType.DEPOSIT]}
+            value={typesPercentage?.[TransactionType.DEPOSIT]}
           />
           <PercentageItem
             icon={<TrendingDownIcon size={16} className="text-red-500" />}
             title="Despesas"
-            value={typesPercentage[TransactionType.EXPENSE]}
+            value={typesPercentage?.[TransactionType.EXPENSE]}
           />
           <PercentageItem
             icon={<PiggyBankIcon size={16} />}
             title="Investido"
-            value={typesPercentage[TransactionType.INVESTMENT]}
+            value={typesPercentage?.[TransactionType.INVESTMENT]}
           />
         </div>
       </CardFooter>
