@@ -6,16 +6,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface SummaryCardProps {
   icon: React.ReactNode;
   title: string;
   amount: number | Decimal;
+  className?: string;
 }
 
-const SummaryCard = ({ icon, title, amount }: SummaryCardProps) => {
+const SummaryCard = ({ icon, title, amount, className }: SummaryCardProps) => {
   return (
-    <Card className="bg-background mt-7.75">
+    <Card className={cn("bg-background mt-7.75", className)}>
       <CardHeader className="flex flex-col gap-3.5">
         <CardTitle className="text-muted-foreground flex items-center gap-2 text-[14px] font-semibold">
           {icon}

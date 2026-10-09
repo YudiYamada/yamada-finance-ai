@@ -66,7 +66,7 @@ const SummaryCards = async ({ month }: SummaryCardsProps) => {
   return (
     <div className="mt-7.75">
       <div>
-        <Card className="bg-background">
+        <Card className="bg-accent-foreground">
           <CardHeader>
             <CardTitle className="text-muted-foreground flex items-center gap-2 text-[14px] font-semibold">
               <WalletIcon />
