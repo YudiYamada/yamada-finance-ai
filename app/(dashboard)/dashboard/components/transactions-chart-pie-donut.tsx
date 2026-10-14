@@ -104,17 +104,17 @@ export function TransactionsChartPieDonut({
         <div className="w-full space-y-3">
           <PercentageItem
             icon={<TrendingUpIcon size={16} className="text-green-500" />}
-            title="Receita"
+            title="Received"
             value={typesPercentage?.[TransactionType.DEPOSIT]}
           />
           <PercentageItem
             icon={<TrendingDownIcon size={16} className="text-red-500" />}
-            title="Despesas"
+            title="Spent"
             value={typesPercentage?.[TransactionType.EXPENSE]}
           />
           <PercentageItem
             icon={<PiggyBankIcon size={16} />}
-            title="Investido"
+            title="Invested"
             value={typesPercentage?.[TransactionType.INVESTMENT]}
           />
         </div>
