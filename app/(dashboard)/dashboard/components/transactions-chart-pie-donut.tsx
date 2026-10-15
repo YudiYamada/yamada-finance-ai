@@ -3,7 +3,13 @@
 import { PiggyBankIcon, TrendingDownIcon, TrendingUpIcon } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
@@ -77,8 +83,13 @@ export function TransactionsChartPieDonut({
       ];
 
   return (
-    <Card className="bg-background flex flex-col h-full">
-      <CardContent className="flex-1 pb-0">
+    <Card className="bg-background flex h-full flex-col">
+      <CardHeader>
+        <CardTitle className="text-foreground border-accent-foreground border-b pb-7 text-center text-2xl font-bold">
+          Pie Chart
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="mt-7 flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-62.5"
