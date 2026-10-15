@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { getDashboard } from "@/data-access/get-dashboard";
 
+import ExpensesPerCategory from "./components/expenses-per-category";
 import SummaryCards from "./components/summary-cards";
 import { TimeSelect } from "./components/time-select";
 import { TransactionsChartPieDonut } from "./components/transactions-chart-pie-donut";
@@ -35,10 +36,14 @@ const DashBoardPage = async ({ searchParams }: DashBoardPageProps) => {
           <SummaryCards month={month} {...dashboard} />
           <div className="mt-6 grid grid-cols-3 gap-6">
             <div className="col-span-1">
-              <TransactionsChartPieDonut {...dashboard}/>
+              <TransactionsChartPieDonut {...dashboard} />
             </div>
 
-            <div className="col-span-2">Gastos por categoria</div>
+            <div className="col-span-2">
+              <ExpensesPerCategory
+                expensesPerCategory={dashboard.totalExpensePerCategory}
+              />
+            </div>
           </div>
         </div>
 
