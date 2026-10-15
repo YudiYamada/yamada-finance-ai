@@ -1,6 +1,7 @@
-export function formatCurrencyUSD(value: string): string {
-  const numericValue = value.replace(/\D/g, "");
-  
+export function formatCurrencyUSD(value: string | number): string {
+  const stringValue = typeof value === "number" ? value.toString() : value;
+  const numericValue = stringValue.replace(/\D/g, "");
+
   if (!numericValue) return "";
 
   const numberValue = Number(numericValue) / 100;

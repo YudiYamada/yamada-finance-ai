@@ -27,7 +27,7 @@ interface SummaryCardsProps {
 
 const SummaryCards = async ({ balance, investmentsTotal, depositsTotal, expensesTotal }: SummaryCardsProps) => {
   return (
-    <div className="mt-7.75">
+    <div>
       <div>
         <Card className="bg-accent-foreground">
           <CardHeader>

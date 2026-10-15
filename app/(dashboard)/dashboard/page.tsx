@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getDashboard } from "@/data-access/get-dashboard";
 
 import ExpensesPerCategory from "./components/expenses-per-category";
+import LastTransactions from "./components/last-transactions";
 import SummaryCards from "./components/summary-cards";
 import { TimeSelect } from "./components/time-select";
 import { TransactionsChartPieDonut } from "./components/transactions-chart-pie-donut";
@@ -31,7 +32,7 @@ const DashBoardPage = async ({ searchParams }: DashBoardPageProps) => {
         <TimeSelect />
       </div>
 
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 gap-10.25 mt-7.75">
         <div className="col-span-2">
           <SummaryCards month={month} {...dashboard} />
           <div className="mt-6 grid grid-cols-3 gap-6">
@@ -48,7 +49,7 @@ const DashBoardPage = async ({ searchParams }: DashBoardPageProps) => {
         </div>
 
         <div className="col-span-1">
-          <h2> Olá mundo!</h2>
+          <LastTransactions lastTransactions={dashboard.lastTransactions} />
         </div>
       </div>
     </>
