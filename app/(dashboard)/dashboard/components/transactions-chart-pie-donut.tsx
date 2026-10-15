@@ -77,7 +77,7 @@ export function TransactionsChartPieDonut({
       ];
 
   return (
-    <Card className="bg-background flex flex-col">
+    <Card className="bg-background flex flex-col h-full">
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
@@ -101,7 +101,7 @@ export function TransactionsChartPieDonut({
         </ChartContainer>
       </CardContent>
       <CardFooter className="bg-background flex-col gap-2 border-t-transparent text-sm">
-        <div className="w-full space-y-3">
+        <div className="w-full space-y-7">
           <PercentageItem
             icon={<TrendingUpIcon size={16} className="text-green-500" />}
             title="Received"
