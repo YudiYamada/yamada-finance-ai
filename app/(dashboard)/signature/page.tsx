@@ -1,8 +1,11 @@
+import SignatureClientPage from "./signature-client-page";
+
 const SignaturePage = () => {
   return (
-    <div>
-      <h1>Signature</h1>
-    </div>
+    <main className="space-y-6.5">
+      <h1 className="text-2xl font-bold">Signature</h1>
+      <SignatureClientPage />
+    </main>
   );
 };
 
