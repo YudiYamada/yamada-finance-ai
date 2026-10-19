@@ -12,7 +12,7 @@ export default async function DashboardLayout({ children }: LayoutProps<"/">) {
   });
 
   if (!session) {
-    redirect("/sign-in");
+    redirect("/");
   }
 
   return (

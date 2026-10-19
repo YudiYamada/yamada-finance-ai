@@ -36,7 +36,7 @@ const SignUpPage = async () => {
             <span className="text-muted-foreground text-sm font-medium">
               Already have an account?{" "}
             </span>
-            <Link href="/sign-in" className="text-primary">
+            <Link href="/" className="text-primary">
               Sign In
             </Link>
           </div>

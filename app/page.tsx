@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
 
-import { SignInForm } from "./components/sign-in-form";
+import { SignInForm } from "./sign-in/components/sign-in-form";
 
 const SignInPage = async () => {
   const session = await auth.api.getSession({

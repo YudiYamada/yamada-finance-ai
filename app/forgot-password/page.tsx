@@ -40,7 +40,7 @@ const ForgotPasswordPage = () => {
         </CardContent>
         <CardFooter className="self-center border-none bg-transparent">
           <ArrowLeftIcon />
-          <Link href="/sign-in">Back to Login</Link>
+          <Link href="/">Back to Login</Link>
         </CardFooter>
       </Card>
     </div>
