@@ -65,7 +65,7 @@ const SignatureCard = ({
           {features.map((feature, index) => (
             <div key={index} className="flex items-center justify-center gap-3">
               {feature.included ? (
-                <CheckIcon className="h-4 w-4 shrink-0 text-green-500" />
+                <CheckIcon className="h-4 w-4 shrink-0 text-primary/50" />
               ) : (
                 <XIcon className="text-muted-foreground h-4 w-4 shrink-0" />
               )}
