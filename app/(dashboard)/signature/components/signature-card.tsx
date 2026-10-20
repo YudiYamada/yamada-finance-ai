@@ -63,7 +63,7 @@ const SignatureCard = ({
       <CardContent className="border-accent-foreground flex-col items-center justify-center gap-4 border-t">
         <div className="mt-10 flex flex-col gap-4">
           {features.map((feature, index) => (
-            <div key={index} className="flex items-center justify-center gap-3">
+            <div key={index} className="flex items-center gap-3">
               {feature.included ? (
                 <CheckIcon className="h-4 w-4 shrink-0 text-primary/50" />
               ) : (
