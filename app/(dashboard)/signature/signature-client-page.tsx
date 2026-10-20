@@ -26,7 +26,7 @@ export default function SignatureClientPage() {
       {/* Pro Plan */}
       <SignatureCard
         title="Pro Plan"
-        price="$19"
+        price="$10"
         period="/month"
         features={[
           { text: "Unlimited transactions", included: true },
