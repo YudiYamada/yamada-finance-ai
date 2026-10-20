@@ -1,44 +1,95 @@
 "use client";
 
-import SignatureCard from "./components/signature-card";
+import { CheckIcon, XIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function SignatureClientPage() {
+  const handleGetPro = () => {
+    alert("Get a Pro")
+  };
+
   return (
     <div className="flex gap-6">
-      {/* Basic Plan */}
-      <SignatureCard
-        title="Basic Plan"
-        badgeText="Current"
-        price="$0"
-        period="/month"
-        features={[
-          { text: "Only 10 transactions per day 7/10", included: true },
-          { text: "Unlimited AI reports", included: false },
-          { text: "...", included: false },
-        ]}
-        buttonText="Upgrade"
-        buttonVariant="outline"
-        buttonClassName="text-primary hover:text-primary border-primary hover:bg-transparent hover:opacity-50"
-        isCurrentPlan={true}
-        onButtonClick={() => console.log("Basic Upgrade")}
-      />
+      {/* Basic Plan Card */}
+      <Card className="bg-background text-foreground w-112.75 p-10">
+        <CardHeader className="space-y-4">
+          <CardTitle className="text-2xl font-semibold">Basic Plan</CardTitle>
+          <CardAction className="bg-primary/10 text-primary rounded-[29px] px-2.5">
+            Current
+          </CardAction>
+          <CardDescription className="mb-10 flex items-center justify-center gap-0.5">
+            <span className="text-3xl">$0</span>
+            <span className="text-xl">/month</span>
+          </CardDescription>
+        </CardHeader>
 
-      {/* Pro Plan */}
-      <SignatureCard
-        title="Pro Plan"
-        price="$10"
-        period="/month"
-        features={[
-          { text: "Unlimited transactions", included: true },
-          { text: "Unlimited AI reports", included: true },
-          { text: "...", included: true },
-        ]}
-        buttonText="Get Plan"
-        buttonVariant="default"
-        buttonClassName="bg-primary/60 hover:bg-primary/70 text-white"
-        isCurrentPlan={false}
-        onButtonClick={() => console.log("Get Pro")}
-      />
+        <CardContent className="border-accent-foreground flex-col items-center justify-center gap-4 border-t">
+          <div className="mt-10 flex flex-col items-start">
+            <div className="flex items-center justify-center gap-3">
+              <CheckIcon className="h-4 w-4 shrink-0 text-green-500" />
+              <p className="text-[16px] font-normal">
+                Only 10 transactions per day 7/10
+              </p>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <XIcon className="text-muted-foreground h-4 w-4 shrink-0" />
+              <p className="text-[16px] font-normal">Unlimited AI reports</p>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <XIcon className="text-muted-foreground h-4 w-4 shrink-0" />
+              <p className="text-[16px] font-normal">...</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Pro Plan Card */}
+      <Card className="bg-background text-foreground w-112.75 p-10">
+        <CardHeader className="space-y-4">
+          <CardTitle className="text-2xl font-semibold">Pro Plan</CardTitle>
+          <CardDescription className="mb-10 flex items-center justify-center gap-0.5">
+            <span className="text-3xl">$10</span>
+            <span className="text-xl">/month</span>
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="border-accent-foreground flex-col items-center justify-center gap-4 border-t">
+          <div className="mt-10 flex flex-col items-start">
+            <div className="flex items-center justify-center gap-3">
+              <CheckIcon className="h-4 w-4 shrink-0 text-green-500" />
+              <p className="text-[16px] font-normal">Unlimited transactions</p>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <CheckIcon className="h-4 w-4 shrink-0 text-green-500" />
+              <p className="text-[16px] font-normal">Unlimited AI reports</p>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <CheckIcon className="h-4 w-4 shrink-0 text-green-500" />
+              <p className="text-[16px] font-normal">...</p>
+            </div>
+          </div>
+        </CardContent>
+
+        <CardFooter className="border-t-transparent bg-transparent">
+          <Button
+            variant="default"
+            className="bg-primary/60 hover:bg-primary/70 min-w-full rounded-3xl p-5 text-white"
+            onClick={handleGetPro}
+          >
+            Get Plan
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
