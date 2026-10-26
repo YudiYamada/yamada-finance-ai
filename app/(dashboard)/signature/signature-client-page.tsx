@@ -1,8 +1,5 @@
-"use client";
-
 import { CheckIcon, XIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardAction,
@@ -13,11 +10,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export default function SignatureClientPage() {
-  const handleGetPro = () => {
-    alert("Get a Pro")
-  };
+import AcquirePlanButton from "./components/acquire-plan-button";
 
+export default function SignatureClientPage() {
   return (
     <div className="flex gap-6">
       {/* Basic Plan Card */}
@@ -81,13 +76,7 @@ export default function SignatureClientPage() {
         </CardContent>
 
         <CardFooter className="border-t-transparent bg-transparent">
-          <Button
-            variant="default"
-            className="bg-primary/60 hover:bg-primary/70 min-w-full rounded-3xl p-5 text-white"
-            onClick={handleGetPro}
-          >
-            Get Plan
-          </Button>
+          <AcquirePlanButton />
         </CardFooter>
       </Card>
     </div>
