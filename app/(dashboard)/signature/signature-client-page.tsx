@@ -58,7 +58,7 @@ export default function SignatureClientPage() {
         <CardHeader className="space-y-4">
           <CardTitle className="text-2xl font-semibold">Pro Plan</CardTitle>
           <CardDescription className="mb-10 flex items-center justify-center gap-0.5">
-            <span className="text-3xl">$10</span>
+            <span className="text-3xl">$1</span>
             <span className="text-xl">/month</span>
           </CardDescription>
         </CardHeader>
@@ -71,7 +71,7 @@ export default function SignatureClientPage() {
             </div>
             <div className="flex items-center justify-center gap-3">
               <CheckIcon className="h-4 w-4 shrink-0 text-green-500" />
-              <p className="text-[16px] font-normal">Unlimited AI reports</p>
+              <p className="text-[16px] font-normal">1 AI reports per day</p>
             </div>
             <div className="flex items-center justify-center gap-3">
               <CheckIcon className="h-4 w-4 shrink-0 text-green-500" />
