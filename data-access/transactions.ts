@@ -9,7 +9,7 @@ export async function getTransactions() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  if (!session) {
+  if (!session?.user) {
     throw new Error("Unauthorized")
   }
   const transactions = await prisma.transaction.findMany({

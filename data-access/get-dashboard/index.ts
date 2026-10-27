@@ -10,14 +10,21 @@ export const getDashboard = async (month: string) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  if (!session) {
+  if (!session?.user) {
     throw new Error("Unauthorized");
   }
 
+  if (!/^(0[1-9]|1[0-2])$/.test(month)) {
+    throw new Error("Invalid month");
+  }
+
+  const monthNumber = Number(month);
+  const year = new Date().getFullYear();
   const where = {
+    userId: session.user.id,
     date: {
-      gte: new Date(`2026-${month}-01`),
-      lte: new Date(`2026-${month}-31`),
+      gte: new Date(Date.UTC(year, monthNumber - 1, 1)),
+      lt: new Date(Date.UTC(year, monthNumber, 1)),
     },
   };
 
@@ -25,31 +32,25 @@ export const getDashboard = async (month: string) => {
     (
       await prisma.transaction.aggregate({
         where: { ...where, type: "DEPOSIT" },
-        _sum: {
-          amount: true,
-        },
+        _sum: { amount: true },
       })
-    )._sum?.amount,
+    )._sum.amount ?? 0,
   );
   const investmentsTotal = Number(
     (
       await prisma.transaction.aggregate({
         where: { ...where, type: "INVESTMENT" },
-        _sum: {
-          amount: true,
-        },
+        _sum: { amount: true },
       })
-    )._sum?.amount,
+    )._sum.amount ?? 0,
   );
   const expensesTotal = Number(
     (
       await prisma.transaction.aggregate({
         where: { ...where, type: "EXPENSE" },
-        _sum: {
-          amount: true,
-        },
+        _sum: { amount: true },
       })
-    )._sum?.amount,
+    )._sum.amount ?? 0,
   );
 
   const balance = depositsTotal - investmentsTotal - expensesTotal;
@@ -60,18 +61,16 @@ export const getDashboard = async (month: string) => {
         where,
         _sum: { amount: true },
       })
-    )._sum.amount,
+    )._sum.amount ?? 0,
   );
+  const percentageOfTransactions = (amount: number) =>
+    transactionsTotal === 0
+      ? 0
+      : Math.round((amount / transactionsTotal) * 100);
   const typesPercentage: TransactionPercentagePerType = {
-    [TransactionType.DEPOSIT]: Math.round(
-      (Number(depositsTotal || 0) / Number(transactionsTotal)) * 100,
-    ),
-    [TransactionType.EXPENSE]: Math.round(
-      (Number(expensesTotal || 0) / Number(transactionsTotal)) * 100,
-    ),
-    [TransactionType.INVESTMENT]: Math.round(
-      (Number(investmentsTotal || 0) / Number(transactionsTotal)) * 100,
-    ),
+    [TransactionType.DEPOSIT]: percentageOfTransactions(depositsTotal),
+    [TransactionType.EXPENSE]: percentageOfTransactions(expensesTotal),
+    [TransactionType.INVESTMENT]: percentageOfTransactions(investmentsTotal),
   };
   const totalExpensePerCategory: TotalExpensePerCategory[] = (
     await prisma.transaction.groupBy({
@@ -87,9 +86,10 @@ export const getDashboard = async (month: string) => {
   ).map((category) => ({
     category: category.category,
     totalAmount: Number(category._sum.amount),
-    percentageOfTotal: Math.round(
-      (Number(category._sum.amount) / Number(expensesTotal)) * 100,
-    ),
+    percentageOfTotal:
+      expensesTotal === 0
+        ? 0
+        : Math.round((Number(category._sum.amount) / expensesTotal) * 100),
   }));
   const lastTransactions = await prisma.transaction.findMany({
     where,
@@ -108,6 +108,6 @@ export const getDashboard = async (month: string) => {
     expensesTotal,
     typesPercentage,
     totalExpensePerCategory,
-    lastTransactions: serializedTransactions, 
+    lastTransactions: serializedTransactions,
   };
 };

@@ -24,7 +24,7 @@ interface upsertTransactionsParams {
 }
 
 export async function upsertTransactions(params: upsertTransactionsParams) {
-  upsertTransactionsSchema.parse(params);
+  const validatedParams = upsertTransactionsSchema.parse(params);
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -33,16 +33,17 @@ export async function upsertTransactions(params: upsertTransactionsParams) {
     throw new Error("Unauthorized");
   }
 
-  const { id, ...data } = params;
+  const { id, ...data } = validatedParams;
 
   if (id) {
-    await prisma.transaction.update({
-      where: { id },
-      data: {
-        ...data,
-        userId: session.user.id,
-      },
+    const result = await prisma.transaction.updateMany({
+      where: { id, userId: session.user.id },
+      data,
     });
+
+    if (result.count === 0) {
+      throw new Error("Transaction not found");
+    }
   } else {
     await prisma.transaction.create({
       data: {
