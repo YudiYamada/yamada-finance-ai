@@ -29,35 +29,43 @@ const SignUpForm = () => {
   });
 
   const onSubmit = async (data: SignUpFormProps) => {
-    console.log("Formulário validado, enviando dados:", data);
     const { email, password, name } = data;
 
-    await authClient.signUp.email(
-      {
-        email,
-        password,
-        name,
-        callbackURL: "/dashboard",
-      },
-      {
-        onRequest: () => {
-          setIsLoading(true);
-          setError(null);
+    try {
+      await authClient.signUp.email(
+        {
+          email,
+          password,
+          name,
+          callbackURL: "/dashboard",
         },
-        onSuccess: () => {
-          setIsLoading(false);
-          router.push("/dashboard");
-          router.refresh();
+        {
+          onRequest: () => {
+            setIsLoading(true);
+            setError(null);
+          },
+          onSuccess: () => {
+            setIsLoading(false);
+            router.push("/dashboard");
+            router.refresh();
+          },
+          onError: (ctx) => {
+            setIsLoading(false);
+            setError(
+              ctx.error.message ||
+                "An error occurred during sign-up. Please try again.",
+            );
+          },
         },
-        onError: (ctx) => {
-          setIsLoading(false);
-          setError(
-            ctx.error.message ||
-              "An error occurred during sign-up. Please try again.",
-          );
-        },
-      },
-    );
+      );
+    } catch (error) {
+      setIsLoading(false);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "An error occurred during sign-up. Please try again.",
+      );
+    }
   };
 
   return (
