@@ -12,16 +12,24 @@ import {
 
 import AcquirePlanButton from "./components/acquire-plan-button";
 
-export default function SignatureClientPage() {
+interface SignatureClientPageProps {
+  isPremium: boolean;
+}
+
+export default function SignatureClientPage({
+  isPremium,
+}: SignatureClientPageProps) {
   return (
     <div className="flex gap-6">
       {/* Basic Plan Card */}
       <Card className="bg-background text-foreground w-112.75 p-10">
         <CardHeader className="space-y-4">
           <CardTitle className="text-2xl font-semibold">Basic Plan</CardTitle>
-          <CardAction className="bg-primary/10 text-primary rounded-[29px] px-2.5">
-            Current
-          </CardAction>
+          {!isPremium && (
+            <CardAction className="bg-primary/10 text-primary rounded-[29px] px-2.5">
+              Current
+            </CardAction>
+          )}
           <CardDescription className="mb-10 flex items-center justify-center gap-0.5">
             <span className="text-3xl">$0</span>
             <span className="text-xl">/month</span>
@@ -52,6 +60,11 @@ export default function SignatureClientPage() {
       <Card className="bg-background text-foreground w-112.75 p-10">
         <CardHeader className="space-y-4">
           <CardTitle className="text-2xl font-semibold">Pro Plan</CardTitle>
+          {isPremium && (
+            <CardAction className="bg-primary/10 text-primary rounded-[29px] px-2.5">
+              Current
+            </CardAction>
+          )}
           <CardDescription className="mb-10 flex items-center justify-center gap-0.5">
             <span className="text-3xl">$1</span>
             <span className="text-xl">/month</span>
@@ -76,7 +89,13 @@ export default function SignatureClientPage() {
         </CardContent>
 
         <CardFooter className="border-t-transparent bg-transparent">
-          <AcquirePlanButton />
+          {isPremium ? (
+            <p className="text-muted-foreground w-full text-center text-sm">
+              Your premium subscription is active.
+            </p>
+          ) : (
+            <AcquirePlanButton />
+          )}
         </CardFooter>
       </Card>
     </div>
